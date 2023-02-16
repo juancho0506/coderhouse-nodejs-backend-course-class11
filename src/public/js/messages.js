@@ -1,32 +1,45 @@
 const socket = io();
-socket.emit("message", "Hola, me estoy comunicando con un websocket!");
+const chatBox = document.getElementById('chatBox');
 
-const input = document.getElementById('textoEntrada');
-const log = document.getElementById('log');
-
-//Primera parte: enviar caracter por caracter.
-/*input.addEventListener('keyup',evt=>{ //Descomenta si quieres usar la primera parte del ejecicio.
-    let {key} = evt;
-    evt.target.value='';
-    socket.emit('message1',key);
+let user;
+Swal.fire({
+    icon: "info",
+    title: "Identificate, por favor.",
+    text: "Ingresa el usuario para identificarte en el chat",
+    input: "text",
+    inputValidator: (value) =>{
+        if (!value){
+            return "Debes ingresar un nombre para comenzar el chat."
+        }
+    },
+    allowOutsideClick: false
+}).then(result => {
+    user = result.value;
+    console.log(result.value);
 });
-
-socket.on('log',data=>{
-    log.innerHTML+=data;
-});*/
 
 //Parte dos: Guardar mensajes por socketid.
-input.addEventListener('keyup',evt=>{
+chatBox.addEventListener('keyup',evt=>{
     if(evt.key==="Enter"){
-        socket.emit('message2',input.value);
-        input.value=""
+        if (chatBox.value.trim().length > 0){
+            socket.emit('message',{user: user, message: chatBox.value}); //{user: Juan, message: "Hola"}
+            chatBox.value=""
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title: "Alerta",
+                text: "Por favor escribe una palabra, los espacios no son un mensaje valido."
+
+            }); 
+        }
     }
 });
-socket.on('log',data=>{
+socket.on('messageLogs',data=>{
+    const messageLog = document.getElementById('messageLog');
     let logs='';
-    data.logs.forEach(log=>{
-        logs += `${log.socketid} dice: ${log.message}<br/>`
+    data.forEach(log=>{
+        logs += `${log.user} dice: ${log.message}<br/>`
     })
-    log.innerHTML=logs;
+    messageLog.innerHTML=logs;
 });
 
