@@ -1,0 +1,32 @@
+{
+  "name": "coderhouse-nodejs-backend-course-class11",
+  "version": "1.0.0",
+  "description": "Repositorio para la clase 11 de programacion backend con websockets",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {"node": "14.x"},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juancho0506/coderhouse-nodejs-backend-course-class11.git"
+  },
+  "keywords": [
+    "node",
+    "websockets",
+    "glitch"
+  ],
+  "author": "Juan Torres",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juancho0506/coderhouse-nodejs-backend-course-class11/issues"
+  },
+  "homepage": "https://github.com/juancho0506/coderhouse-nodejs-backend-course-class11#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^6.0.7",
+    "socket.io": "^4.6.0"
+  }
+}
