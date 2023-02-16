@@ -10,6 +10,8 @@ Swal.fire({
     inputValidator: (value) =>{
         if (!value){
             return "Debes ingresar un nombre para comenzar el chat."
+        } else{
+            socket.emit("userConnected", {user: value});
         }
     },
     allowOutsideClick: false
@@ -18,7 +20,7 @@ Swal.fire({
     console.log(result.value);
 });
 
-//Parte dos: Guardar mensajes por socketid.
+//Guardar mensajes por socketid.
 chatBox.addEventListener('keyup',evt=>{
     if(evt.key==="Enter"){
         if (chatBox.value.trim().length > 0){
@@ -34,6 +36,20 @@ chatBox.addEventListener('keyup',evt=>{
         }
     }
 });
+
+//Parte 2
+socket.on('userConnected',data=>{
+    console.log(data);
+    let message = `Usuario nuevo conectado: ${data}`;
+    Swal.fire({
+        icon: "info",
+        title: "Nuevo usuario entra al chat!",
+        text: message,
+        toast: true,
+        color: '#716add'
+    });
+});
+
 socket.on('messageLogs',data=>{
     const messageLog = document.getElementById('messageLog');
     let logs='';
